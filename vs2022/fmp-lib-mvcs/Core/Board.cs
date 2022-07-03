@@ -1,5 +1,5 @@
 
-namespace XTC.FMP.Lib.MVCS
+namespace XTC.FMP.LIB.MVCS
 {
     // 内部通讯的主板
     // get和set方法为多语言规范，不直接使用C#的属性存取

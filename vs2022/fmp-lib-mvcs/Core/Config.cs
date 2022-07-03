@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace XTC.FMP.Lib.MVCS
+namespace XTC.FMP.LIB.MVCS
 {
     public class Config
     {

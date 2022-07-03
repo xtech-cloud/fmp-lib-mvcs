@@ -3,7 +3,7 @@
      All rights reserved.
 *********************************************************************/
 
-namespace XTC.FMP.Lib.MVCS
+namespace XTC.FMP.LIB.MVCS
 {
     /// <summary>
     /// 控制单元

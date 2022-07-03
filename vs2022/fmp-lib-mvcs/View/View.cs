@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace XTC.FMP.Lib.MVCS
+namespace XTC.FMP.LIB.MVCS
 {
     /// <summary>
     /// 视图层

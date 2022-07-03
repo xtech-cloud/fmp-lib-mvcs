@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace XTC.FMP.Lib.MVCS
+namespace XTC.FMP.LIB.MVCS
 {
     /// <summary>
     /// 使用字符串作为底层数据的任意类型

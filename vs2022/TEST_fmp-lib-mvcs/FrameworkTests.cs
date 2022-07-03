@@ -1,4 +1,4 @@
-using XTC.FMP.Lib.MVCS;
+using XTC.FMP.LIB.MVCS;
 
 namespace TEST_fmp_lib_mvcs
 {
