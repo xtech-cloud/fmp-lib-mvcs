@@ -47,23 +47,24 @@ namespace XTC.FMP.Lib.MVCS
                 return null;
             return inner;
         }
-        public Error PushFacade(string _uuid, View.Facade _facade)
-        {
-            board_.getLogger()?.Info("push facade {0}", _uuid);
 
-            if (facades_.ContainsKey(_uuid))
-                return Error.NewAccessErr("facade {0} exists", _uuid);
-            facades_[_uuid] = _facade;
+        public Error PushFacade(View.Facade _facade)
+        {
+            board_.getLogger()?.Info("push facade {0}", _facade.getUID());
+
+            if (facades_.ContainsKey(_facade.getUID()))
+                return Error.NewAccessErr("facade {0} exists", _facade.getUID());
+            facades_[_facade.getUID()] = _facade;
             return Error.OK;
         }
 
-        public Error PopFacade(string _uuid)
+        public Error PopFacade(View.Facade _facade)
         {
-            board_.getLogger()?.Info("pop facade {0}", _uuid);
+            board_.getLogger()?.Info("pop facade {0}", _facade.getUID());
 
-            if (!facades_.ContainsKey(_uuid))
-                return Error.NewAccessErr("facade {0} not found", _uuid);
-            facades_.Remove(_uuid);
+            if (!facades_.ContainsKey(_facade.getUID()))
+                return Error.NewAccessErr("facade {0} not found", _facade.getUID());
+            facades_.Remove(_facade.getUID());
             return Error.OK;
         }
 
@@ -80,6 +81,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("preSetup views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("preSetup {0}", inner.getUnit().getUID());
                 inner.PreSetup();
             }
         }
@@ -89,6 +91,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("setup views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("setup {0}", inner.getUnit().getUID());
                 inner.Setup();
             }
         }
@@ -98,6 +101,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("postSetup views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("postSetup {0}", inner.getUnit().getUID());
                 inner.PostSetup();
             }
         }
@@ -107,6 +111,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("preDismantle views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("preDismantle {0}", inner.getUnit().getUID());
                 inner.PreDismantle();
             }
         }
@@ -116,6 +121,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("dismantle views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("dismantle {0}", inner.getUnit().getUID());
                 inner.Dismantle();
             }
         }
@@ -125,6 +131,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("postDismantle views");
             foreach (View.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("postDismantle {0}", inner.getUnit().getUID());
                 inner.PostDismantle();
             }
         }

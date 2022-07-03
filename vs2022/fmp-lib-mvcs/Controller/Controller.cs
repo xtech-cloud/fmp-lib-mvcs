@@ -59,6 +59,16 @@ namespace XTC.FMP.Lib.MVCS
         }
         #endregion
 
+        public Controller(string _uid)
+        {
+            uid_ = _uid;
+        }
+
+        public string getUID()
+        {
+            return uid_;
+        }
+
         /// <summary>
         /// 查找一个数据层
         /// </summary>
@@ -161,5 +171,6 @@ namespace XTC.FMP.Lib.MVCS
         }
 
         private Board? board_;
+        private string uid_;
     }
 }//namespace MVCS

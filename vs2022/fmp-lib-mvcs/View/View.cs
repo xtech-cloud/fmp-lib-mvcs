@@ -78,6 +78,16 @@ namespace XTC.FMP.Lib.MVCS
             {
             }
 
+            public Facade(string _uid)
+            {
+                uid_ = _uid;
+            }
+
+            public string getUID()
+            {
+                return uid_;
+            }
+
             public void setViewBridge(Bridge _value)
             {
                 viewBridge_ = _value;
@@ -100,10 +110,19 @@ namespace XTC.FMP.Lib.MVCS
 
             private Bridge? viewBridge_;
             private Bridge? uiBridge_;
+            private string uid_;
         }
         #endregion
 
-        private Dictionary<string, Action<Model.Status?, object>> handlers_ = new Dictionary<string, Action<Model.Status?, object>>();
+        public View(string _uid)
+        {
+            uid_ = _uid;
+        }
+
+        public string getUID()
+        {
+            return uid_;
+        }
 
 
         /// <summary>
@@ -269,6 +288,8 @@ namespace XTC.FMP.Lib.MVCS
 
         }
 
+        private Dictionary<string, Action<Model.Status?, object>> handlers_ = new Dictionary<string, Action<Model.Status?, object>>();
         private Board? board_;
+        private string uid_;
     }
 }//namespace

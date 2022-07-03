@@ -134,7 +134,15 @@ namespace XTC.FMP.Lib.MVCS
         #endregion
 
 
+        public Model(string _uid)
+        {
+            uid_ = _uid;
+        }
 
+        public string getUID()
+        {
+            return uid_;
+        }
 
         /// <summary>向视图层广播消息</summary>
         /// 适用于状态发生变化后，通知外部
@@ -339,5 +347,6 @@ namespace XTC.FMP.Lib.MVCS
         protected bool isAllowSetProperty_ = true;
         private Dictionary<string, List<System.Action<Status?, object>>>? observers_;
         private Board? board_;
+        private string uid_;
     }
 }//namespace

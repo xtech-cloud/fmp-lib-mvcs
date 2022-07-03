@@ -32,6 +32,9 @@ namespace TEST_fmp_lib_mvcs
 
     class SimpleModel : Model
     {
+        public SimpleModel(string _uid) : base(_uid)
+        {
+        }
         public class SimpleStatus : Status
         {
             public string uuid { get; set; }
@@ -72,6 +75,9 @@ namespace TEST_fmp_lib_mvcs
     }
     class SimpleView : View
     {
+        public SimpleView(string _uid) : base(_uid)
+        {
+        }
         private SimpleService? service { get; set; }
         protected override void preSetup()
         {
@@ -101,6 +107,9 @@ namespace TEST_fmp_lib_mvcs
 
     class SimpleController : Controller
     {
+        public SimpleController(string _uid) : base(_uid)
+        { 
+        }
         private SimpleView? view { get; set; }
         protected override void preSetup()
         {
@@ -124,6 +133,9 @@ namespace TEST_fmp_lib_mvcs
 
     class SimpleService : Service
     {
+        public SimpleService(string _uid) : base(_uid)
+        {
+        }
         private SimpleModel? model { get; set; }
         protected override void preSetup()
         {
@@ -157,6 +169,11 @@ namespace TEST_fmp_lib_mvcs
     [TestClass]
     public class FrameworkTests
     {
+        private SimpleModel? model;
+        private SimpleView? view;
+        private SimpleController? controller;
+        private SimpleService? service;
+
         [TestMethod]
         public void TestStaticPipe()
         {
@@ -164,26 +181,28 @@ namespace TEST_fmp_lib_mvcs
             framework.setLogger(new ConsoleLogger());
 
             framework.Initialize();
-            framework.getStaticPipe().RegisterModel("SimpleModel", new SimpleModel());
-            SimpleView simpleView = new SimpleView();
-            framework.getStaticPipe().RegisterView("SimpleView", simpleView);
-            framework.getStaticPipe().RegisterController("SimpleController", new SimpleController());
-            SimpleService service = new SimpleService();
-            framework.getStaticPipe().RegisterService("SimpleService", service);
+            model = new SimpleModel("SimpleModel");
+            framework.getStaticPipe().RegisterModel(model);
+            view = new SimpleView("SimpleModel");
+            framework.getStaticPipe().RegisterView(view);
+            controller = new SimpleController("SimpleController");
+            framework.getStaticPipe().RegisterController(controller);
+            service = new SimpleService("SimpleService");
+            framework.getStaticPipe().RegisterService(service);
 
             framework.Setup();
 
             // 主循环
             // 模拟登录按钮被点击时
             {
-                simpleView.OnSigninClicked();
+                view.OnSigninClicked();
             }
 
             framework.Dismantle();
-            framework.getStaticPipe().CancelService("SimpleService");
-            framework.getStaticPipe().CancelController("SimpleController");
-            framework.getStaticPipe().CancelView("SimpleView");
-            framework.getStaticPipe().CancelModel("SimpleModel");
+            framework.getStaticPipe().CancelService(service);
+            framework.getStaticPipe().CancelController(controller);
+            framework.getStaticPipe().CancelView(view);
+            framework.getStaticPipe().CancelModel(model);
 
             framework.Release();
         }

@@ -45,6 +45,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("perSetup models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("perSetup {0}", inner.getUnit().getUID());
                 inner.PreSetup();
             }
         }
@@ -54,6 +55,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("setup models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("setup {0}", inner.getUnit().getUID());
                 inner.Setup();
             }
         }
@@ -63,6 +65,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("postSetup models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("postSetup {0}", inner.getUnit().getUID());
                 inner.PostSetup();
             }
         }
@@ -72,6 +75,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("perDismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("perDismantle {0}", inner.getUnit().getUID());
                 inner.PreDismantle();
             }
         }
@@ -81,6 +85,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("dismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("dismantle {0}", inner.getUnit().getUID());
                 inner.Dismantle();
             }
         }
@@ -90,6 +95,7 @@ namespace XTC.FMP.Lib.MVCS
             board_.getLogger()?.Info("postDismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
+                board_.getLogger()?.Debug("postDismantle {0}", inner.getUnit().getUID());
                 inner.PostDismantle();
             }
         }

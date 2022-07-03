@@ -72,6 +72,16 @@ namespace XTC.FMP.Lib.MVCS
             public bool useMock = false;
         }
 
+        public Service(string _uid)
+        {
+            uid_ = _uid;
+        }
+
+        public string getUID()
+        {
+            return uid_;
+        }
+
         /// <summary>
         /// 查找一个数据层
         /// </summary>
@@ -164,5 +174,6 @@ namespace XTC.FMP.Lib.MVCS
 
         /// 别名列表
         private Board? board_;
+        private string uid_;
     }
 }//namespace
