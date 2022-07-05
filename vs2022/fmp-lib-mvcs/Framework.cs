@@ -3,14 +3,24 @@
      All rights reserved.
 *********************************************************************/
 
+using System.Collections.Generic;
+
 namespace XTC.FMP.LIB.MVCS
 {
+    public interface IUserData
+    {
+
+    }
+
     public class Framework
     {
+        
         private  const string nullException = "board is null";
         private StaticPipe? staticPipe_;
         private DynamicPipe? dynamicPipe_;
         private Board? board_;
+
+        private Dictionary<string, IUserData> userDatas_ = new Dictionary<string, IUserData>();
 
         #region Get Set
         public StaticPipe getStaticPipe()
@@ -54,6 +64,24 @@ namespace XTC.FMP.LIB.MVCS
             board_ = null;
             staticPipe_ = null;
             dynamicPipe_ = null;
+        }
+
+        public void PushUserData(string _key, IUserData _value)
+        {
+            userDatas_[_key] = _value;
+        }
+
+        public IUserData? FindUserData(string _key)
+        {
+            if (!userDatas_.ContainsKey(_key))
+                return null;
+            return userDatas_[_key];
+        }
+
+        public void PopUserData(string _key)
+        {
+            if (userDatas_.ContainsKey(_key))
+                userDatas_.Remove(_key);
         }
 
         /// <summary>
