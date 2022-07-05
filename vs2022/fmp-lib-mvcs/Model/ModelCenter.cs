@@ -16,7 +16,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Register(string _uuid, Model.Inner _inner)
         {
-            board_.getLogger()?.Info("register model {0}", _uuid);
+            board_.getLogger()?.Info("register model: {0}", _uuid);
             if (units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("model {0} exists", _uuid);
             units_[_uuid] = _inner;
@@ -25,7 +25,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Cancel(string _uuid)
         {
-            board_.getLogger()?.Info("cancel model {0}", _uuid);
+            board_.getLogger()?.Info("cancel model: {0}", _uuid);
             if (!units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("model {0} not found", _uuid);
             units_.Remove(_uuid);
@@ -45,7 +45,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("perSetup models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("perSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("perSetup model: {0}", inner.getUnit().getUID());
                 inner.PreSetup();
             }
         }
@@ -55,7 +55,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("setup models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("setup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("setup model: {0}", inner.getUnit().getUID());
                 inner.Setup();
             }
         }
@@ -65,7 +65,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postSetup models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postSetup model: {0}", inner.getUnit().getUID());
                 inner.PostSetup();
             }
         }
@@ -75,7 +75,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("perDismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("perDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("perDismantle model: {0}", inner.getUnit().getUID());
                 inner.PreDismantle();
             }
         }
@@ -85,7 +85,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("dismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("dismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("dismantle model: {0}", inner.getUnit().getUID());
                 inner.Dismantle();
             }
         }
@@ -95,14 +95,14 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postDismantle models");
             foreach (Model.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postDismantle model: {0}", inner.getUnit().getUID());
                 inner.PostDismantle();
             }
         }
 
         public Error PushStatus(string _uuid, Model.Status _status)
         {
-            board_.getLogger()?.Info("push status {0}", _uuid);
+            board_.getLogger()?.Info("push status: {0}", _uuid);
 
             if (status_.ContainsKey(_uuid))
                 return Error.NewAccessErr("status {0} exists", _uuid);
@@ -112,7 +112,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error PopStatus(string _uuid)
         {
-            board_.getLogger()?.Info("pop status {0}", _uuid);
+            board_.getLogger()?.Info("pop status: {0}", _uuid);
 
             if (!status_.ContainsKey(_uuid))
                 return Error.NewAccessErr("status {0} not found", _uuid);

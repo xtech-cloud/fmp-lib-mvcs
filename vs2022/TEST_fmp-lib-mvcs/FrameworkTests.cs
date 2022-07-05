@@ -40,7 +40,16 @@ namespace TEST_fmp_lib_mvcs
             public string uuid { get; set; }
         }
 
-        private SimpleController? controller { get; set; }
+        private SimpleController? controller
+        {
+            get
+            {
+                if (null == controller_)
+                    controller_ = findController("SimpleController") as SimpleController;
+                return controller_;
+            }
+        }
+        private SimpleController? controller_ { get; set; }
 
         private SimpleStatus? status
         {
@@ -54,7 +63,6 @@ namespace TEST_fmp_lib_mvcs
         {
             Error err;
             status_ = spawnStatus<SimpleStatus>("SimpleStatus", out err);
-            controller = findController("SimpleController") as SimpleController;
         }
 
         protected override void setup()
@@ -78,10 +86,28 @@ namespace TEST_fmp_lib_mvcs
         public SimpleView(string _uid) : base(_uid)
         {
         }
-        private SimpleService? service { get; set; }
+
+        private SimpleService? service
+        {
+            get
+            {
+                if (null == service_)
+                    service_ = findService("SimpleService") as SimpleService;
+                return service_;
+            }
+        }
+
+        private SimpleService? service_ { get; set; }
         protected override void preSetup()
         {
-            service = findService("SimpleService") as SimpleService;
+            addRouter("/simple", (_status, _data) =>
+            {
+
+            });
+            addObserver("SimpleView", "/simple", (_status, _data) =>
+            {
+
+            });
         }
 
         protected override void setup()
@@ -108,12 +134,21 @@ namespace TEST_fmp_lib_mvcs
     class SimpleController : Controller
     {
         public SimpleController(string _uid) : base(_uid)
-        { 
+        {
         }
-        private SimpleView? view { get; set; }
+
+        private SimpleView? view
+        {
+            get
+            {
+                if (null == view_)
+                    view_ = findView("SimpleView") as SimpleView;
+                return view_;
+            }
+        }
+        private SimpleView? view_ { get; set; }
         protected override void preSetup()
         {
-            view = findView("SimpleView") as SimpleView;
         }
         protected override void setup()
         {
@@ -151,6 +186,8 @@ namespace TEST_fmp_lib_mvcs
             Dictionary<string, Any> parameter = new Dictionary<string, Any>();
             parameter["username"] = Any.FromString(_username);
             parameter["password"] = Any.FromString(_password);
+            model?.Bubble("/simple", "");
+            model?.Broadcast("/simple", "");
             /*
             post("http://localhost/signin", parameter, (_reply) =>
             {
@@ -204,6 +241,39 @@ namespace TEST_fmp_lib_mvcs
             framework.getStaticPipe().CancelView(view);
             framework.getStaticPipe().CancelModel(model);
 
+            framework.Release();
+        }
+
+        [TestMethod]
+        public void TestDynamicPipe()
+        {
+            Framework framework = new Framework();
+            framework.setLogger(new ConsoleLogger());
+
+            framework.Initialize();
+            framework.Setup();
+
+            model = new SimpleModel("SimpleModel");
+            framework.getDynamicPipe().PushModel(model);
+            view = new SimpleView("SimpleModel");
+            framework.getDynamicPipe().PushView(view);
+            controller = new SimpleController("SimpleController");
+            framework.getDynamicPipe().PushController(controller);
+            service = new SimpleService("SimpleService");
+            framework.getDynamicPipe().PushService(service);
+
+            // 主循环
+            // 模拟登录按钮被点击时
+            {
+                view.OnSigninClicked();
+            }
+
+            framework.getDynamicPipe().PopService(service);
+            framework.getDynamicPipe().PopController(controller);
+            framework.getDynamicPipe().PopView(view);
+            framework.getDynamicPipe().PopModel(model);
+
+            framework.Dismantle();
             framework.Release();
         }
     }

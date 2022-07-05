@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>fmp_lib_mvcs</RootNamespace>
     <Nullable>enable</Nullable>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <Authors>XTechCloud</Authors>
     <Company>XTechCloud</Company>
   </PropertyGroup>

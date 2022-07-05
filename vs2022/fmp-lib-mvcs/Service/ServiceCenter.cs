@@ -16,7 +16,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Register(string _uuid, Service.Inner _inner)
         {
-            board_.getLogger()?.Info("register service {0}", _uuid);
+            board_.getLogger()?.Info("register service: {0}", _uuid);
             if (units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("service {0} exists", _uuid);
             units_[_uuid] = _inner;
@@ -25,7 +25,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Cancel(string _uuid)
         {
-            board_.getLogger()?.Info("cancel service {0}", _uuid);
+            board_.getLogger()?.Info("cancel service: {0}", _uuid);
             if (!units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("service {0} not found", _uuid);
             units_.Remove(_uuid);
@@ -45,7 +45,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("perSetup services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("perSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("perSetup service: {0}", inner.getUnit().getUID());
                 inner.PreSetup();
             }
         }
@@ -55,7 +55,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("setup services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("setup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("setup service: {0}", inner.getUnit().getUID());
                 inner.Setup();
             }
         }
@@ -65,7 +65,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postSetup services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postSetup service: {0}", inner.getUnit().getUID());
                 inner.PostSetup();
             }
         }
@@ -75,7 +75,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("preDismantle services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("preDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("preDismantle service: {0}", inner.getUnit().getUID());
                 inner.PreDismantle();
             }
         }
@@ -85,7 +85,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("dismantle services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("dismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("dismantle service: {0}", inner.getUnit().getUID());
                 inner.Dismantle();
             }
         }
@@ -95,7 +95,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postDismantle services");
             foreach (Service.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postDismantle service: {0}", inner.getUnit().getUID());
                 inner.PostDismantle();
             }
         }

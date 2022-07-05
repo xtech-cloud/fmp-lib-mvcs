@@ -24,7 +24,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Register(string _uuid, View.Inner _inner)
         {
-            board_.getLogger()?.Info("register view {0}", _uuid);
+            board_.getLogger()?.Info("register view: {0}", _uuid);
             if (units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("view {0} exists", _uuid);
             units_[_uuid] = _inner;
@@ -33,7 +33,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error Cancel(string _uuid)
         {
-            board_.getLogger()?.Info("cancel view {0}", _uuid);
+            board_.getLogger()?.Info("cancel view: {0}", _uuid);
             if (!units_.ContainsKey(_uuid))
                 return Error.NewAccessErr("view {0} not found", _uuid);
             units_.Remove(_uuid);
@@ -50,7 +50,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error PushFacade(View.Facade _facade)
         {
-            board_.getLogger()?.Info("push facade {0}", _facade.getUID());
+            board_.getLogger()?.Info("push facade: {0}", _facade.getUID());
 
             if (facades_.ContainsKey(_facade.getUID()))
                 return Error.NewAccessErr("facade {0} exists", _facade.getUID());
@@ -60,7 +60,7 @@ namespace XTC.FMP.LIB.MVCS
 
         public Error PopFacade(View.Facade _facade)
         {
-            board_.getLogger()?.Info("pop facade {0}", _facade.getUID());
+            board_.getLogger()?.Info("pop facade: {0}", _facade.getUID());
 
             if (!facades_.ContainsKey(_facade.getUID()))
                 return Error.NewAccessErr("facade {0} not found", _facade.getUID());
@@ -81,7 +81,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("preSetup views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("preSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("preSetup view: {0}", inner.getUnit().getUID());
                 inner.PreSetup();
             }
         }
@@ -91,7 +91,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("setup views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("setup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("setup view: {0}", inner.getUnit().getUID());
                 inner.Setup();
             }
         }
@@ -101,7 +101,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postSetup views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postSetup {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postSetup view: {0}", inner.getUnit().getUID());
                 inner.PostSetup();
             }
         }
@@ -111,7 +111,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("preDismantle views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("preDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("preDismantle view: {0}", inner.getUnit().getUID());
                 inner.PreDismantle();
             }
         }
@@ -121,7 +121,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("dismantle views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("dismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("dismantle view: {0}", inner.getUnit().getUID());
                 inner.Dismantle();
             }
         }
@@ -131,7 +131,7 @@ namespace XTC.FMP.LIB.MVCS
             board_.getLogger()?.Info("postDismantle views");
             foreach (View.Inner inner in units_.Values)
             {
-                board_.getLogger()?.Debug("postDismantle {0}", inner.getUnit().getUID());
+                board_.getLogger()?.Debug("postDismantle view: {0}", inner.getUnit().getUID());
                 inner.PostDismantle();
             }
         }
