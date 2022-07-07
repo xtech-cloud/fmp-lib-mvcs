@@ -128,9 +128,9 @@ namespace XTC.FMP.LIB.MVCS
             return status;
         }
 
-        public void Broadcast(string _action, Model.Status? _status, object _data)
+        public void Publish(string _message, Model.Status? _status, object _data)
         {
-            board_.getViewCenter().HandleAction(_action, _status, _data);
+            board_.getViewCenter().RouteMessage(_message, _status, _data);
         }
 
         private Dictionary<string, Model.Inner> units_ = new Dictionary<string, Model.Inner>();

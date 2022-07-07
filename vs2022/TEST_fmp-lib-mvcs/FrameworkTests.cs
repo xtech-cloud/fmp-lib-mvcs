@@ -83,6 +83,7 @@ namespace TEST_fmp_lib_mvcs
     }
     class SimpleView : View
     {
+        public Signal signalEcho;
         public SimpleView(string _uid) : base(_uid)
         {
         }
@@ -97,15 +98,30 @@ namespace TEST_fmp_lib_mvcs
             }
         }
 
+        private SimpleModel? model
+        {
+            get
+            {
+                if (null == model_)
+                {
+                    model_ = findModel("SimpleModel") as SimpleModel;
+                    signalEcho = new Signal(model_);
+                    signalEcho.Connect((_status, _data) =>
+                    {
+                        getLogger().Info($"receive signal: {_data}");
+                    });
+                }
+                return model_;
+            }
+        }
+
         private SimpleService? service_ { get; set; }
+        private SimpleModel? model_ { get; set; }
         protected override void preSetup()
         {
-            addRouter("/simple", (_status, _data) =>
+            addSubscriber("/simple", (_status, _data) =>
             {
-
-            });
-            addObserver("SimpleView", "/simple", (_status, _data) =>
-            {
+                getLogger()?.Info("receive message /simple");
 
             });
         }
@@ -113,11 +129,15 @@ namespace TEST_fmp_lib_mvcs
         protected override void setup()
         {
             getLogger()?.Info("setup SimpleView");
+            
         }
 
         public void OnSigninClicked()
         {
+            if (null == model)
+                return;
             service!.PostSignin("admin", "11223344");
+            signalEcho.Emit("~~~~~~");
         }
 
         public void PrintError(string _error)
@@ -186,8 +206,7 @@ namespace TEST_fmp_lib_mvcs
             Dictionary<string, Any> parameter = new Dictionary<string, Any>();
             parameter["username"] = Any.FromString(_username);
             parameter["password"] = Any.FromString(_password);
-            model?.Bubble("/simple", "");
-            model?.Broadcast("/simple", "");
+            model?.Publish("/simple", "");
             /*
             post("http://localhost/signin", parameter, (_reply) =>
             {

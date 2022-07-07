@@ -57,16 +57,6 @@ namespace XTC.FMP.LIB.MVCS
                 unit_.postDismantle();
             }
 
-            public void AddObserver(string _action, System.Action<Status?, object> _handler)
-            {
-                unit_.addObserver(_action, _handler);
-            }
-
-            public void RemoveObserver(string _action, System.Action<Status?, object> _handler)
-            {
-                unit_.removeObserver(_action, _handler);
-            }
-
             private Model unit_;
         }
         #endregion
@@ -144,60 +134,43 @@ namespace XTC.FMP.LIB.MVCS
             return uid_;
         }
 
-        /// <summary>向视图层广播消息</summary>
+        /// <summary>
+        /// 设置用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <param name="_value">值，为空时删除对应的键</param>
+        public void setUserData(string _key, UserData? _value)
+        {
+            if (null == _value)
+            {
+                if (userDatas_.ContainsKey(_key))
+                    userDatas_.Remove(_key);
+                return;
+            }
+            userDatas_[_key] = _value;
+        }
+
+        /// <summary>
+        /// 获取用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <returns>不存在时返回空</returns>
+        public UserData? getUserData(string _key)
+        {
+            if (!userDatas_.ContainsKey(_key))
+                return null;
+            return userDatas_[_key];
+        }
+
+        /// <summary>向视图层发布消息</summary>
         /// 适用于状态发生变化后，通知外部
-        /// 在视图层使用addRouter和removeRouter
-        /// <param name="_action">行为</param>
+        /// 在视图层使用addSubscriber和removeSubscriber
+        /// <param name="_message">消息</param>
         /// <param name="_data">数据</param>
-        public void Broadcast(string _action, object _data)
+        public void Publish(string _message, object _data)
         {
-            board_!.getModelCenter()!.Broadcast(_action, status_, _data);
+            board_!.getModelCenter()!.Publish(_message, status_, _data);
         }
-
-        /// <summary>向视图层冒泡</summary>
-        /// 适用于外部获取未发生变化的状态
-        /// 在视图层使用addObserver和removeObserver
-        /// <param name="_action">行为</param>
-        /// <param name="_data">数据</param>
-        public void Bubble(string _action, object _data)
-        {
-            if (null == observers_)
-                return;
-
-            List<System.Action<Status?, object>>? handlers;
-            if (!observers_.TryGetValue(_action, out handlers))
-                return;
-
-            foreach(var handler in handlers)
-            {
-                handler(status_, _data);
-            }
-        }
-
-
-        public void SetProperty(string _key, Any _value)
-        {
-            if (null == property_)
-                return;
-            if (!isAllowSetProperty_)
-                throw new System.MethodAccessException("Not allowed to set a property, the isAllowSetProperty_ is false");
-
-            property_[_key] = _value;
-        }
-
-
-        public Any GetProperty(string _key)
-        {
-            if (null == property_)
-                return new Any();
-            Any value;
-            if(!property_.TryGetValue(_key, out value))
-            {
-                value = new Any();
-            }
-            return value;
-        }
-
 
         /// <summary>
         /// 查找一个数据层
@@ -318,35 +291,13 @@ namespace XTC.FMP.LIB.MVCS
 
         }
 
-        private void addObserver(string _action, System.Action<Status?, object> _handler)
+        internal void emit(System.Action<Status?, object> _slot, object _data)
         {
-            if (null == _handler)
-                throw new System.ArgumentNullException("_handler is null");
-
-            if(null == observers_)
-                observers_ = new Dictionary<string, List<System.Action<Status?, object>>>();
-            if (!observers_.ContainsKey(_action))
-                observers_[_action] = new List<System.Action<Status?, object>>();
-            observers_[_action].Add(_handler);
+            _slot(status_, _data);
         }
 
-        private void removeObserver(string _action, System.Action<Status?, object> _handler)
-        {
-            if (null == _handler)
-                throw new System.ArgumentNullException("_handler is null");
-
-            if (null == observers_)
-                return;
-            List<System.Action<Status?, object>> handlers;
-            if (!observers_.TryGetValue(_action, out handlers))
-                return;
-            handlers.Remove(_handler);
-        }
-
-        protected Dictionary<string, Any> property_ = new Dictionary<string, Any>();
-        protected bool isAllowSetProperty_ = true;
-        private Dictionary<string, List<System.Action<Status?, object>>>? observers_;
         private Board? board_;
         private string uid_;
+        private Dictionary<string, UserData> userDatas_ = new Dictionary<string, UserData>();
     }
 }//namespace

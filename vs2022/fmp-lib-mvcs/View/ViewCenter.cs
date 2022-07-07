@@ -14,11 +14,11 @@ namespace XTC.FMP.LIB.MVCS
             board_ = _board;
         }
 
-        public void HandleAction(string _action, Model.Status? _status, object _obj)
+        public void RouteMessage(string _message, Model.Status? _status, object _obj)
         {
             foreach (View.Inner inner in units_.Values)
             {
-                inner.Handle(_action, _status, _obj);
+                inner.RouteMessage(_message, _status, _obj);
             }
         }
 

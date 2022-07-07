@@ -83,6 +83,34 @@ namespace XTC.FMP.LIB.MVCS
         }
 
         /// <summary>
+        /// 设置用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <param name="_value">值，为空时删除对应的键</param>
+        public void setUserData(string _key, UserData? _value)
+        {
+            if (null == _value)
+            {
+                if (userDatas_.ContainsKey(_key))
+                    userDatas_.Remove(_key);
+                return;
+            }
+            userDatas_[_key] = _value;
+        }
+
+        /// <summary>
+        /// 获取用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <returns>不存在时返回空</returns>
+        public UserData? getUserData(string _key)
+        {
+            if (!userDatas_.ContainsKey(_key))
+                return null;
+            return userDatas_[_key];
+        }
+
+        /// <summary>
         /// 查找一个数据层
         /// </summary>
         /// <param name="_uuid"> 数据层唯一识别码</param>
@@ -123,6 +151,8 @@ namespace XTC.FMP.LIB.MVCS
         {
             return board_!.getConfig();
         }
+
+        
 
         /// <summary>
         /// 单元的安装前处理
@@ -175,5 +205,6 @@ namespace XTC.FMP.LIB.MVCS
         /// 别名列表
         private Board? board_;
         private string uid_;
+        private Dictionary<string, UserData> userDatas_ = new Dictionary<string, UserData>();
     }
 }//namespace

@@ -7,20 +7,14 @@ using System.Collections.Generic;
 
 namespace XTC.FMP.LIB.MVCS
 {
-    public interface IUserData
-    {
-
-    }
-
     public class Framework
     {
-        
         private  const string nullException = "board is null";
         private StaticPipe? staticPipe_;
         private DynamicPipe? dynamicPipe_;
         private Board? board_;
 
-        private Dictionary<string, IUserData> userDatas_ = new Dictionary<string, IUserData>();
+        private Dictionary<string, UserData> userDatas_ = new Dictionary<string, UserData>();
 
         #region Get Set
         public StaticPipe getStaticPipe()
@@ -66,23 +60,34 @@ namespace XTC.FMP.LIB.MVCS
             dynamicPipe_ = null;
         }
 
-        public void PushUserData(string _key, IUserData _value)
+        /// <summary>
+        /// 设置用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <param name="_value">值，为空时删除对应的键</param>
+        public void setUserData(string _key, UserData? _value)
         {
+            if(null == _value)
+            {
+                if (userDatas_.ContainsKey(_key))
+                    userDatas_.Remove(_key);
+                return;
+            }
             userDatas_[_key] = _value;
         }
 
-        public IUserData? FindUserData(string _key)
+        /// <summary>
+        /// 获取用户数据
+        /// </summary>
+        /// <param name="_key">键</param>
+        /// <returns>不存在时返回空</returns>
+        public UserData? getUserData(string _key)
         {
             if (!userDatas_.ContainsKey(_key))
                 return null;
             return userDatas_[_key];
         }
 
-        public void PopUserData(string _key)
-        {
-            if (userDatas_.ContainsKey(_key))
-                userDatas_.Remove(_key);
-        }
 
         /// <summary>
         /// 框架初始化，完成各层中心的实例化
