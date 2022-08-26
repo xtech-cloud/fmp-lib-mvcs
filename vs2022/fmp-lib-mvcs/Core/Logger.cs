@@ -26,32 +26,32 @@ namespace XTC.FMP.LIB.MVCS
             level_ = _level;
         }
 
-        public void Trace(string _message, params object[] _args)
+        public virtual void Trace(string _message, params object[] _args)
         {
             log(LogLevel.TRACE, this.trace, _message, _args);
         }
 
-        public void Debug(string _message, params object[] _args)
+        public virtual void Debug(string _message, params object[] _args)
         {
             log(LogLevel.DEBUG, this.debug, _message, _args);
         }
 
-        public void Info(string _message, params object[] _args)
+        public virtual void Info(string _message, params object[] _args)
         {
             log(LogLevel.INFO, this.info, _message, _args);
         }
 
-        public void Warning(string _message, params object[] _args)
+        public virtual void Warning(string _message, params object[] _args)
         {
             log(LogLevel.WARNING, this.warning, _message, _args);
         }
 
-        public void Error(string _message, params object[] _args)
+        public virtual void Error(string _message, params object[] _args)
         {
             log(LogLevel.ERROR, this.error, _message, _args);
         }
 
-        public void Exception(System.Exception _ex)
+        public virtual void Exception(System.Exception _ex)
         {
             if (level_ < LogLevel.EXCEPTION)
                 return;
@@ -96,17 +96,15 @@ namespace XTC.FMP.LIB.MVCS
             {
                 message = _message;
             }
-            string method;
-            string file;
+            string? method;
+            string? file;
             getMethod(out file, out method);
-            string categoray = string.Format("{0}::{1}",file, method);
+            string categoray = string.Format("{0}::{1}", file ?? "", method ?? "");
             _log(categoray, message);
         }
 
-        private void getMethod(out string _file, out string _method)
+        private void getMethod(out string? _file, out string? _method)
         {
-            _method = "";
-            _file = "";
             try
             {
                 System.Diagnostics.StackFrame sf = new System.Diagnostics.StackTrace().GetFrame(3);
@@ -115,6 +113,8 @@ namespace XTC.FMP.LIB.MVCS
             }
             catch (System.Exception)
             {
+                _method = "";
+                _file = "";
             }
         }
 
